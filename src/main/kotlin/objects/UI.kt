@@ -1,14 +1,11 @@
 package org.example.objects
 
-import java.util.concurrent.TimeUnit
-
 /**
  * Objeto UI que proporciona funciones para mostrar mensajes formateados en la consola.
  * Incluye métodos para mostrar títulos, rondas, acciones, daños, estados y barras de salud.
  * @usage Se utiliza para mejorar la experiencia visual en la consola durante la simulación de peleas.
  */
 object UI {
-
 
     /**
      * Función para mostrar un título formateado.

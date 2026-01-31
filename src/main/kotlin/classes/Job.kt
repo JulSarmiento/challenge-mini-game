@@ -37,6 +37,6 @@ abstract class Job(
      * @return Una cadena que describe la salud actual o si el Job ha muerto.
      */
     fun updateHealth(): String {
-        return if(isAlive) "Vida actual de $job es $health" else "$job, haz muerto"
+        return if(isAlive) "Vida actual de ${this.job} es ${this.health}" else "${this.job}, haz muerto"
     }
 }

@@ -20,6 +20,9 @@ fun main() {
     fight(fighters, warrior, knight)
 }
 
+
+// Ahora construimos ejercitos con warriors y knights y los enfrentamos
+
 /**
  * Simula una pelea entre dos luchadores hasta que uno de ellos pierde toda su salud.
  * @param fighters Lista de luchadores que participarán en la pelea.
@@ -35,7 +38,7 @@ fun fight(fighters: List<Job>, warrior: Job, knight: Job) {
     UI.title("Comienza la pelea!")
     UI.action("${attacker.job} ataca primero a ${defender.job}")
 
-    while (knight.health > 0 && warrior.health > 0){
+    while (knight.isAlive && warrior.isAlive){
         UI.round(counter++)
         UI.action(attacker.attack(defender))
         UI.damage(defender.updateHealth())
