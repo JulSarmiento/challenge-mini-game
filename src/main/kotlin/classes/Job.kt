@@ -16,11 +16,9 @@ abstract class Job(
     val isAlive: Boolean
         get() = health > 0
 
-    /**
-     * Método abstracto que debe ser implementado por las clases derivadas para presentar el trabajo.
-     * @return Una cadena que describe el trabajo.
-     */
-    abstract fun presentation(): String
+    override fun toString(): String {
+        return "Job(job='$job', health=$health, strength=$strength)"
+    }
 
     /**
      * Método que permite atacar a otro Job, reduciendo su salud en función de la fuerza del atacante.

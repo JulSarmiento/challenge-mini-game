@@ -12,12 +12,4 @@ class Knight: Warrior() {
         job = "Knight"
         strength = 7
     }
-
-    /**
-     * Método que presenta al caballero.
-     * @return Una cadena que describe el trabajo y la fuerza del caballero.
-     */
-    override fun presentation(): String {
-        return "Este es un $job y su fuerza es $strength"
-    }
 }

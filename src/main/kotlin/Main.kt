@@ -1,8 +1,7 @@
 package org.example
 
+import org.example.classes.Army
 import org.example.classes.Job
-import org.example.classes.Knight
-import org.example.classes.Warrior
 import org.example.objects.UI
 
 /**
@@ -10,46 +9,74 @@ import org.example.objects.UI
  * Crea instancias de Warrior y Knight, las presenta y luego inicia una pelea entre ellas.
  */
 fun main() {
-    val warrior = Warrior()
-    val knight = Knight()
-    val fighters = listOf(warrior, knight).shuffled()
 
-    println(warrior.presentation())
-    println(knight.presentation())
+    val army1 = Army(
+        "Ejercito 1",
+        size = 10
+    )
 
-    fight(fighters, warrior, knight)
+    val army2 = Army(
+        "Ejercito 2",
+        size = 10
+    )
+
+    val listOfArmy = listOf(army1, army2).shuffled()
+
+    fight(listOfArmy, army1, army2)
 }
 
 
-// Ahora construimos ejercitos con warriors y knights y los enfrentamos
-
 /**
- * Simula una pelea entre dos luchadores hasta que uno de ellos pierde toda su salud.
- * @param fighters Lista de luchadores que participarán en la pelea.
- * @param warrior Instancia del guerrero.
- * @param knight Instancia del caballero.
+ * Función que simula una pelea entre dos ejércitos, alternando ataques entre ellos hasta que uno de los ejércitos muere.
+ * @param listOfArmy Lista de los dos ejércitos que participarán en la pelea, ordenados aleatoriamente para determinar quién ataca primero.
+ * @param myArmyOne Primer ejército participante en la pelea.
+ * @param myArmyTwo Segundo ejército participante en la pelea.
+ * @usage Se llama desde la función main para iniciar la simulación de la pelea entre los dos ejércitos.
  */
-fun fight(fighters: List<Job>, warrior: Job, knight: Job) {
-    var attacker = fighters[0]
-    var defender = fighters[1]
+fun fight(
+    listOfArmy: List<Army>,
+    myArmyOne: Army,
+    myArmyTwo: Army
+) {
+    var attacker = listOfArmy[0]
+    var defender = listOfArmy[1]
+
     var counter = 1
-    val maxHp = 50
+    val maxHpOne = myArmyOne.totalHp
+    val maxHpTwo = myArmyTwo.totalHp
 
     UI.title("Comienza la pelea!")
-    UI.action("${attacker.job} ataca primero a ${defender.job}")
+    UI.action("${attacker.name} ataca primero a ${defender.name}")
 
-    while (knight.isAlive && warrior.isAlive){
+    while (myArmyOne.isAlive && myArmyTwo.isAlive) {
         UI.round(counter++)
-        UI.action(attacker.attack(defender))
-        UI.damage(defender.updateHealth())
-        UI.bar(warrior.job, warrior.health, maxHp)
-        UI.bar(knight.job, knight.health, maxHp)
+
+        val attackerJob = attacker.army.firstOrNull { it.isAlive }
+        val defenderJob = defender.army.firstOrNull { it.isAlive }
+
+        if (attackerJob != null && defenderJob != null) {
+            UI.action(attackerJob.attack(defenderJob))
+            UI.damage(defenderJob.updateHealth())
+        }
+
+        UI.bar(
+            myArmyOne.name,
+            hp = myArmyOne.totalHp,
+            max = maxHpOne
+        )
+
+        UI.bar(
+            myArmyTwo.name,
+            hp = myArmyTwo.totalHp,
+            max = maxHpTwo
+        )
 
         attacker = defender.also { defender = attacker }
         UI.pause()
     }
 
+    val winner = if (myArmyOne.isAlive) myArmyOne else myArmyTwo
     UI.title("FIN DEL COMBATE")
-    UI.status("${attacker.job} gana")
+    UI.status("${winner.name} gana")
 }
 
